@@ -20,7 +20,7 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 
 // crearto il gruppo di rotte protette da middleware con prefisso ‘admin’ e name ‘admin.’
 Route::middleware(['auth', 'verified'])
-    ->name('admin')
+    ->name('admin.')
     ->prefix('admin')
     ->group(function(){
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
