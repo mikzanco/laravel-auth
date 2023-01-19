@@ -18,8 +18,16 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Projects::all();
-        return view('admin.projects.index', compact('projects'));
+        $projects = Projects::paginate(10);
+        $direction = 'desc';
+        return view('admin.projects.index', compact('projects', 'direction'));
+    }
+
+    public function orderby($column, $direction){
+
+        $direction = $direction === 'desc' ? 'asc' : 'desc';
+        $projects = Projects::orderby($column, $direction)->paginate(10);
+        return view('admin.projects.index', compact('projects', 'direction'));
     }
 
     /**
@@ -29,7 +37,11 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        $route = route('beers.store');
+        $method = 'POST';
+        $projects = null;
+        $title = 'Nuovo Progetto';
+        return view('Projects', compact('route', 'method', 'title') );
     }
 
     /**
@@ -46,12 +58,12 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Projects $projects
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        return view('admin.projects.show', compact('projects'));
     }
 
     /**
