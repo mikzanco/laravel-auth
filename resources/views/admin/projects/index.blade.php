@@ -7,7 +7,7 @@
 @section('content')
 <div class="container">
     <h1>Elenco dei progetti</h1>
-
+    <a class="btn btn-success" href="{{route('admin.projects.create')}}">Nuovo Progetto</a>
     <table class="table">
         <thead>
           <tr>

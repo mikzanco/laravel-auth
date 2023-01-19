@@ -37,11 +37,12 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $route = route('beers.store');
-        $method = 'POST';
-        $projects = null;
-        $title = 'Nuovo Progetto';
-        return view('Projects', compact('route', 'method', 'title') );
+        // $route = route('projects.store');
+        // $method = 'POST';
+        // $projects = null;
+        // $title = 'Nuovo Progetto';
+        return view('admin.projects.create',  );
+        // compact('route', 'method', 'title')
     }
 
     /**
