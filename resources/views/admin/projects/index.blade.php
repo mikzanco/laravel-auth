@@ -7,13 +7,22 @@
 @section('content')
 <div class="container">
     <h1>Elenco dei progetti</h1>
+
+    @if(session('deleted'))
+        <div role="alert" class="alert alert-success">
+            {{session('deleted')}}
+        </div>
+
+    @endif
+
+
     <a class="btn btn-success" href="{{route('admin.projects.create')}}">Nuovo Progetto</a>
     <table class="table">
         <thead>
           <tr>
             <th scope="col"><a href="{{ route('admin.projects.orderby', ['id', 'direction'])}}">ID</a></th>
-            <th scope="col"><a href="{{ route('admin.projects.orderby', ['id','direction'])}}">Nome</a></th>
-            <th scope="col"><a href="{{ route('admin.projects.orderby', ['id', 'direction'])}}">Nome cliente</a></th>
+            <th scope="col"><a href="{{ route('admin.projects.orderby', ['name','direction'])}}">Nome</a></th>
+            <th scope="col"><a href="{{ route('admin.projects.orderby', ['client_name', 'direction'])}}">Nome cliente</a></th>
             {{-- <th scope="col">Riasssunto</th> --}}
             <th scope="col">AZIONI</th>
             {{-- <th scope="col">cover_image</th> --}}
@@ -26,10 +35,17 @@
                 <td>{{$project->name}}</td>
                 <td>{{$project->client_name}}</td>
                 {{-- <td>{{$project->summary}}</td> --}}
-                <td>
+                <td class="d-flex">
                     <a class="btn btn-success" href="{{route('admin.projects.show', $projects)}}"><i class="fa-solid fa-eye"></i>Show</a>
-                    <a class="btn btn-warning" href=""><i class="fa-solid fa-pen-to-square"></i>Edit</a>
-                    <a class="btn btn-danger" href=""><i class="fa-solid fa-trash"></i>Delete</a>
+                    <a class="btn btn-warning" href="{{route('admin.projects.edit', $projects)}}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+                    <form
+                    onsubmit="return confirmi('Confermi l\'elimnazione del progettto?')"
+                        action="{{route('admin.projects.destroy', $projects)}}" method="POST">
+                        @csrf
+                        @method('DELETED')
+                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i>Delete</button>
+                    </form>
+
                 </td>
             </tr>
             @endforeach
