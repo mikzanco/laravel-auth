@@ -14,11 +14,12 @@
               </div>
         </div>
     @endif
+
     <h1>{{$projects->name}}</h1>
     <img src="{{$projects->cover_image}}" alt="{{$projects->name}}">
     <p>{!! $projects->text !!}</p>
     <a href="{{route('admin.projects.index')}}" class="btn btn-info">Torna indietro</a>
-    <a class="btn btn-warning" href="{{route('admin.projects.edit', $projects)}}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
+   <a class="btn btn-warning" href="{{route('admin.projects.edit', $projects)}}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
 
 </div>
 @endsection

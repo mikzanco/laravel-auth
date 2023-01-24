@@ -23,7 +23,7 @@ class ProjectsSeeder extends Seeder
             $new_project->slug = Projects::generateSlug($new_project->name);
             $new_project->client_name = $faker->sentence();
             $new_project->summary = $faker->paragraph(5);
-            $new_project->cover_image = 'https://t3.ftcdn.net/jpg/02/48/42/64/360_F_248426448_NVKLywWqArG2ADUxDq6QprtIzsF82dMF.jpg';
+
             $new_project->save();
             // dump($new_project);
 

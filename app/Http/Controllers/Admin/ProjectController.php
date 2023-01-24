@@ -8,6 +8,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Projects;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectController extends Controller
@@ -57,12 +58,24 @@ class ProjectController extends Controller
     {
 
         $project_data = $request->all();
+
+
         $project_data['slug'] = Projects::generateSlug($project_data['name']);
 
-        $new_project = new Projects();
-        $new_project->fill($project_data);
-        $new_project->save();
+        if(array_key_exists('cover_image', $project_data)){
 
+            $project_data['original_name'] = $request->file('cover_image')->getClientOriginalName();
+            $project_data['cover_image'] = Storage::put('uploads', $project_data['cover_image']);
+        }
+        dd($project_data);
+
+
+
+        // $new_project = new Projects();
+        // $new_project->fill($project_data);
+        // $new_project->save();
+
+        $new_project = Projects::create($project_data);
         return redirect()->route('admin.projects.show', $new_project)->with('message', 'Progetto creato correttamente');
     }
 
@@ -72,8 +85,11 @@ class ProjectController extends Controller
      * @param  \App\Models\Projects $projects
      * @return \Illuminate\Http\Response
      */
-    public function show(Projects $projects)
+    public function show(Projects $project)
     {
+
+        //$projects = Projects::find($projects);
+        $projects = $project;
         return view('admin.projects.show', compact('projects'));
     }
 
@@ -83,8 +99,10 @@ class ProjectController extends Controller
      * @param  \App\Models\Projects $projects
      * @return \Illuminate\Http\Response
      */
-    public function edit(Projects $projects)
+    public function edit(Projects $project)
     {
+
+        $projects = $project;
         return view('admin.projects.edit', compact('projects'));
     }
 

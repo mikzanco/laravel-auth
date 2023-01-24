@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{route('admin.projects.store')}}" method="POST">
+    <form action="{{route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
@@ -38,7 +38,7 @@
         </div>
         <div class="mb-3">
             <label for="cover_image" class="form-label">Immagine</label>
-            <input type="text" class="form-control @error('cover_image') is-invalid @enderror" id="cover_image" name="cover_image" placeholder="cover_image" value="{{old('cover_image')}}">
+            <input type="file" class="form-control @error('cover_image') is-invalid @enderror" id="cover_image" name="cover_image" placeholder="cover_image" value="{{old('cover_image')}}">
             @error('cover_image')
                 <p class="invalid-feedback"> {{$message}} </p>
             @enderror
