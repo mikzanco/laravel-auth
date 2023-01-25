@@ -62,9 +62,11 @@ class ProjectController extends Controller
 
         $project_data['slug'] = Projects::generateSlug($project_data['name']);
 
+        // dd($project_data);
+
         if(array_key_exists('cover_image', $project_data)){
 
-            $project_data['original_name'] = $request->file('cover_image')->getClientOriginalName();
+            $project_data['cover_image_original'] = $request->file('cover_image')->getClientOriginalName();
             $project_data['cover_image'] = Storage::put('uploads', $project_data['cover_image']);
         }
         // dd($project_data);
@@ -122,6 +124,16 @@ class ProjectController extends Controller
         }else{
             $project_data['slug'] = $project->slug;
         }
+
+        if(array_key_exists('cover_image', $project_data)){
+            if($project->cover_image){
+                Storage::disk('public')->delete($project->cover_image);
+            }
+
+            $project_data['cover_image_original'] = $request->file('cover_image')->getClientOriginalName();
+            $project_data['cover_image'] = Storage::put('uploads', $project_data['cover_image']);
+        }
+
         $project->update($project_data);
         return redirect()->route('admin.projects.show', $project)->with('message', 'Progetto aggiornato correttamente');
     }
@@ -134,8 +146,15 @@ class ProjectController extends Controller
      */
     public function destroy(Projects $project)
     {
+        if($project->cover_image){
+            Storage::disk('public')->delete($project->cover_image);
+        }
+
         $project->delete();
 
         return redirect()->route('admin.projects.index')->with('delete', 'Progetto eliminato');
     }
 }
+
+
+

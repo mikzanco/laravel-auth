@@ -27,7 +27,7 @@ class ProjectRequest extends FormRequest
             'name' => 'required|max:255|min:3',
             'client_name' => 'required|max:255|min:3',
             'summary' => 'required|max:255|min:3',
-            'cover_image' => 'required|max:255|min:3',
+            'cover_image' => 'nullable|image|max:120000',
         ];
     }
     public function messages(){
@@ -40,9 +40,9 @@ class ProjectRequest extends FormRequest
             'client_name.required' => 'Il nome del cliente è un campo obbligatorio',
             'client_name.max' => 'Il nome del cliente può avere al massimo :max caratteri',
             'client_name.min' => 'Il nome del cliente può avere al minimo :min caratteri',
-            'cover_image.required' => 'L\'immagine è un campo obbligatorio',
-            'cover_image.max' => 'L\'immagine può avere al massimo :max caratteri',
-            'cover_image.min' => 'L\'immagine può avere al minimo :min caratteri',
+            'cover_image.image' => 'Il file immagine non è corretto',
+            'cover_image.max' => 'L\'immagine deve pesare al massimo 10mega',
+
             'summary.required' => 'Il testo è un campo obbligatorio',
             'summary.max' => 'Il testo può avere al massimo :max caratteri',
             'summary.min' => 'Il testo può avere al minimo :min caratteri',

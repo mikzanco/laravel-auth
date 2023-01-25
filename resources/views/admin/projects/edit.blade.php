@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{route('admin.projects.update', $projects)}}" method="POST">
+    <form action="{{route('admin.projects.update', $projects)}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -39,10 +39,15 @@
         </div>
         <div class="mb-3">
             <label for="cover_image" class="form-label">Immagine</label>
-            <input type="text" class="form-control @error('cover_image') is-invalid @enderror" id="cover_image" name="cover_image" placeholder="cover_image" value="{{old('cover_image', $projects->cover_image)}}">
+            <input
+            onchange="showImage(event)"
+            type="file" class="form-control @error('cover_image') is-invalid @enderror" id="cover_image" name="cover_image" placeholder="cover_image" value="{{old('cover_image', $projects->cover_image)}}">
             @error('cover_image')
                 <p class="invalid-feedback"> {{$message}} </p>
             @enderror
+            <div class="mt-2">
+                <img width="150" id="output-image" src="{{asset('storage/' . $projects->cover_image)}}" alt="{{$projects->cover_image_original}}">
+            </div>
         </div>
         <div class="mb-3">
             <label for="summary" class="form-label">Sommario</label>
@@ -55,4 +60,11 @@
 
     </form>
 </div>
+
+<script>
+    function showImage(event){
+        const tagImage = document.getElementById('output-image');
+        tagImage.src = URL.createObjectURL(event.target.files[0]);
+    }
+</script>
 @endsection
