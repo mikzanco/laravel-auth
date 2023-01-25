@@ -67,7 +67,7 @@ class ProjectController extends Controller
             $project_data['original_name'] = $request->file('cover_image')->getClientOriginalName();
             $project_data['cover_image'] = Storage::put('uploads', $project_data['cover_image']);
         }
-        dd($project_data);
+        // dd($project_data);
 
 
 
@@ -88,7 +88,7 @@ class ProjectController extends Controller
     public function show(Projects $project)
     {
 
-        //$projects = Projects::find($projects);
+        // $projects = Projects::find($projects);
         $projects = $project;
         return view('admin.projects.show', compact('projects'));
     }
@@ -113,17 +113,17 @@ class ProjectController extends Controller
      * @param  \App\Models\Projects $projects
      * @return \Illuminate\Http\Response
      */
-    public function update(ProjectRequest $request, Projects $projects)
+    public function update(ProjectRequest $request, Projects $project)
     {
         $project_data = $request->all();
-        if($project_data['name'] != $projects->name ){
+        if($project_data['name'] != $project->name ){
             $project_data['slug'] = Projects::generateSlug($project_data['name']);
 
         }else{
-            $project_data['slug'] = $projects->slug;
+            $project_data['slug'] = $project->slug;
         }
-        $projects->update($project_data);
-        return redirect()->route('admin.projects.show', $projects)->with('message', 'Progetto aggiornato correttamente');
+        $project->update($project_data);
+        return redirect()->route('admin.projects.show', $project)->with('message', 'Progetto aggiornato correttamente');
     }
 
     /**
@@ -132,9 +132,9 @@ class ProjectController extends Controller
      * @param  \App\Models\Projects $projects
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Projects $projects)
+    public function destroy(Projects $project)
     {
-        $projects->delete();
+        $project->delete();
 
         return redirect()->route('admin.projects.index')->with('delete', 'Progetto eliminato');
     }

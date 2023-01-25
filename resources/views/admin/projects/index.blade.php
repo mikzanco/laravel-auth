@@ -38,13 +38,8 @@
                 <td class="d-flex">
                     <a class="btn btn-success" href="{{route('admin.projects.show', $project)}}"><i class="fa-solid fa-eye"></i>Show</a>
                     <a class="btn btn-warning" href="{{route('admin.projects.edit', $project)}}"><i class="fa-solid fa-pen-to-square"></i>Edit</a>
-                    <form
-                    onsubmit="return confirmi('Confermi l\'elimnazione del progettto?')"
-                        action="{{route('admin.projects.destroy', $project)}}" method="POST">
-                        @csrf
-                        @method('DELETED')
-                        <button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i>Delete</button>
-                    </form>
+
+                    @include('admin.partials.form-delete', ['projects'=>$project])
 
                 </td>
             </tr>
